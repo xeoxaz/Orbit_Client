@@ -3,6 +3,8 @@
 ### Description
 A CLI *Command line interface* that runs headless *In the background* passivly sends information to the server.
 
+See [Orbit Server](https://github.com/xeoxaz/Orbit_Server) for the full project.
+
 ### What it does
 Gathers information from the host, and sends the data to the server, to be displayed on the webserver.
 
