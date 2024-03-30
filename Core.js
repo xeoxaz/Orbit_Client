@@ -23,14 +23,27 @@ socket.on("disconnect", (reason) => {
 
 setInterval(async () => {
     
-    socket.emit("_system", await GetSystem());
+    socket.emit("_system", await getSystem());
 
 }, 5000);
 
-async function GetSystem(){
+async function getSystem(){
     _data = {
         motherboard: `${await si.baseboard().then((d) => d.model)}`,
-        cpu: `${await si.cpu().then((d)=>d.brand)}`
+        cpu: `${await si.cpu().then((d)=>d.brand)}`,
+        ram: `${await si.mem().then((d)=>formatBytes(d.total))}`
     };
     return _data;
+}
+
+function formatBytes(bytes) {
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes === 0) {
+        return 'n/a';
+    }
+    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    if (i === 0) {
+        return bytes + ' ' + sizes[i];
+    }
+    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
 }
