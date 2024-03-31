@@ -1,4 +1,5 @@
 console.clear();
+process.title = "Orbit Client";
 
 const { io } = require("socket.io-client");
 const si = require("systeminformation");
@@ -14,6 +15,10 @@ socket.on("connect", ()=>{
     });
 });
 
+socket.io.on("ping", ()=>{
+    socket.emit("_pong", Math.floor(new Date().getTime() / 1000));
+});
+
 socket.on("disconnect", (reason) => {
     console.log("Lost connection.");
     if (reason === "io server disconnect") {
@@ -22,9 +27,7 @@ socket.on("disconnect", (reason) => {
 });
 
 setInterval(async () => {
-    
     socket.emit("_system", await getSystem());
-
 }, 5000);
 
 async function getSystem(){
